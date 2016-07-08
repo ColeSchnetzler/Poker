@@ -1,0 +1,10 @@
+
+public class BetTextField extends JTextField
+{
+  
+  public BetTextField(String s)
+  {
+    super(s);
+  }
+  
+}

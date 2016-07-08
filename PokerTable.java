@@ -20,6 +20,9 @@ public class PokerTable extends GraphicsProgram
   private PlayerLabel myPlayer6;
   private PlayerLabel myPlayer7;
   private FoldButton myFoldButton;
+  private CheckButton myCheckButton;
+  private BetButton myBetButton;
+  private BetTextField myBetTextField;
   private Card[] myCards;
   private JPanel myButtonPanel;
   private Card myPlayerCard1;
@@ -51,12 +54,25 @@ public class PokerTable extends GraphicsProgram
   {
     
     myFoldButton = new FoldButton("Fold");
-    myFoldButton.setBounds(100, 100, 20, 5);
-    //add(myFoldButton);
+    myFoldButton.setButtonSize(30, 10);
+    add(myFoldButton, SOUTH);
+    
+    myCheckButton = new CheckButton("Check");
+    myCheckButton.setButtonSize(30, 10);
+    add(myCheckButton, SOUTH);
+    
+    myBetButton = new BetButton("Bet");
+    myBetButton.setButtonSize(30, 10);
+    add(myBetButton, SOUTH);
+    
+    myBetTextField = new BetTextField("\t");
+    myBetTextField.setTextFieldSize(30, 10);
+    add(myBetTextField, SOUTH);
+    
     
     myPot = new PlayerLabel("Pot: ", 350, 95, 100000); 
     
-    
+    //making the seats
     myTable = new GRect(90, 50, 550, 300);
     mySeats = new GOval[7];
     mySeats[0] = new GOval(55, 100, 25, 25);
@@ -67,6 +83,7 @@ public class PokerTable extends GraphicsProgram
     mySeats[5] = new GOval(650, 100, 25, 25);
     mySeats[6] = new GOval(650, 275, 25, 25);
     
+    //setting values of player labels
     myPlayerLabels = new PlayerLabel[7];
     myPlayerLabels[0] = new PlayerLabel("Spot Empty", 20, 95, 100000);
     myPlayerLabels[1] = new PlayerLabel("Spot Empty", 20, 270, 100000);
@@ -76,6 +93,7 @@ public class PokerTable extends GraphicsProgram
     myPlayerLabels[5] = new PlayerLabel("Spot Empty", 677.5, 115, 100000);
     myPlayerLabels[6] = new PlayerLabel("Spot Empty", 677.5, 290, 100000);
     
+    //setting values of player action labels
     myPlayerActionLabels = new PlayerLabel[7];
     myPlayerActionLabels[0] = new PlayerLabel("", 20, 95, 100000);
     myPlayerActionLabels[1] = new PlayerLabel("", 20, 270, 100000);
@@ -88,6 +106,7 @@ public class PokerTable extends GraphicsProgram
     myCards = new Card[52];
     myCards = setDeck();
     
+    //adding player's first card
     myPlayerInt1 = (int)(Math.random() * 52);
     myPlayerCard1 = new Card(myCards[myPlayerInt1].getString(), 325, 340);
     if (myCards[myPlayerInt1].isUsed() == true)
@@ -96,7 +115,8 @@ public class PokerTable extends GraphicsProgram
       myPlayerCard1 = new Card(myCards[myPlayerInt1].getString(), 325, 340);
     }
     myCards[myPlayerInt1].cardUsed();
-    
+   
+    //adding player's second card
     myPlayerInt2 = (int)(Math.random() * 52);
     myPlayerCard2 = new Card(myCards[myPlayerInt2].getString(), 365, 340);
     if (myCards[myPlayerInt2].isUsed() == true)
@@ -106,6 +126,7 @@ public class PokerTable extends GraphicsProgram
     }
     myCards[myPlayerInt2].cardUsed();
     
+    //setting players first card to red if hearts or diamonds
     if (myPlayerInt1 == 13 || myPlayerInt1 == 14 || myPlayerInt1 == 15 || myPlayerInt1 == 16 || myPlayerInt1 == 17
            || myPlayerInt1 == 18 || myPlayerInt1 == 19 || myPlayerInt1 == 20 || myPlayerInt1 == 21 || myPlayerInt1 == 22 
            || myPlayerInt1 == 23 || myPlayerInt1 == 24 || myPlayerInt1 == 25 || myPlayerInt1 == 39 || myPlayerInt1 == 40
@@ -116,6 +137,7 @@ public class PokerTable extends GraphicsProgram
       myPlayerCard1.setColor(Color.RED);
     }
     
+    //setting players second card to red if hearts or diamonds
     if (myPlayerInt2 == 13 || myPlayerInt2 == 14 || myPlayerInt2 == 15 || myPlayerInt2 == 16 || myPlayerInt2 == 17
            || myPlayerInt2 == 18 || myPlayerInt2 == 19 || myPlayerInt2 == 20 || myPlayerInt2 == 21 || myPlayerInt2 == 22 
            || myPlayerInt2 == 23 || myPlayerInt2 == 24 || myPlayerInt2 == 25 || myPlayerInt2 == 39 || myPlayerInt2 == 40
@@ -125,16 +147,11 @@ public class PokerTable extends GraphicsProgram
     {
       myPlayerCard2.setColor(Color.RED);
     }
-    
-    
-   
-    
-    
-    
     add(myPlayerCard1);
     add(myPlayerCard2);
     
     
+    // adding cards on table
     myMiddleInt1 = (int)(Math.random() * 52);
     myMiddleCard1 = new Card(myCards[myMiddleInt1].getString(), 280, 200);
     if (myCards[myMiddleInt1].isUsed() == true)
@@ -185,13 +202,14 @@ public class PokerTable extends GraphicsProgram
     myCards[myMiddleInt5].cardUsed();
     add(myMiddleCard5);
     
+    //making crads invisible intially 
     myMiddleCard1.setVisible(false);
     myMiddleCard2.setVisible(false);
     myMiddleCard3.setVisible(false);
     myMiddleCard4.setVisible(false);
     myMiddleCard5.setVisible(false);
     
-    
+    //adding player action label
     myPlayerAction4 = myPlayerActionLabels[3];
   
     
@@ -203,7 +221,7 @@ public class PokerTable extends GraphicsProgram
     myPlayer6 = myPlayerLabels[5];
     myPlayer7 = myPlayerLabels[6];
     
-    
+    //adding player labels
     for (int k = 0; k < 7; k ++)
     {
       add(myPlayerLabels[k]);
@@ -220,11 +238,6 @@ public class PokerTable extends GraphicsProgram
   
   public void run()
   {
-    myPlayer4.setLabel("You: " + "$" + myPlayer4.getMoney());
-    
-    myMiddleCard1.setVisible(true);
-    myMiddleCard2.setVisible(true);
-    myMiddleCard3.setVisible(true);
     
   }
   
@@ -233,6 +246,7 @@ public class PokerTable extends GraphicsProgram
     return myPlayerLabels[x];
   }
   
+  //add cards to deck
   public Card[] setDeck()
   {
     Card[] cards;
@@ -292,10 +306,6 @@ public class PokerTable extends GraphicsProgram
     cards[51] = new Card("K D", 0, 0);
     cards[51].setColor(Color.RED);
       
-    
     return cards;
-  }
-  
-    
-  
+  } 
 }

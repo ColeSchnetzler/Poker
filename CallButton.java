@@ -7,19 +7,16 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.awt.Component.*;
 
-public class FoldButton extends JButton
+public class CallButton extends JButton
 {
   
-  
-  public FoldButton(String s)
+  public CallButton(String s)
   {
     super(s);
   }
-  
   public void setButtonSize(int width, int height)
   {
     setSize(width, height);
   }
-  
   
 }
